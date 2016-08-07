@@ -130,6 +130,10 @@ class LogStash::Outputs::ElasticSearch < LogStash::Outputs::Base
   # a timeout occurs, the request will be retried.
   config :timeout, :validate => :number
 
+  # Whether to use update_action_builder from event content, or pass content as is (useful when
+  # input is already in es_bulk format)
+  config :build_update_action, :validate => :boolean, :default => true
+
   def build_client
     @client = ::LogStash::Outputs::ElasticSearch::HttpClientBuilder.build(@logger, @hosts, params)
   end

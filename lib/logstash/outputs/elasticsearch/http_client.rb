@@ -41,7 +41,7 @@ module LogStash; module Outputs; class ElasticSearch;
     def non_threadsafe_bulk(actions)
       return if actions.empty?
       bulk_body = actions.collect do |action, args, source|
-        args, source = update_action_builder(args, source) if action == 'update'
+        args, source = update_action_builder(args, source) if action == 'update' and @options[:build_update_action]
 
         if source && action != 'delete'
           next [ { action => args.merge({ :data => source }) } ]
