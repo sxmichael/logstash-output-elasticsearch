@@ -137,6 +137,10 @@ class LogStash::Outputs::ElasticSearch < LogStash::Outputs::Base
   # metadata format, thus those values should be cleaned. Default: false
   config :remove_empty_action_params, :validate => :boolean, :default => false
 
+  # Whether to skip update_action_builder and pass event content as is (useful when 
+  # input is already in es_bulk format) or build the action (doc => event, or scripted)
+  config :skip_update_action_builder, :validate => :boolean, :default => false
+
   def build_client
     @client = ::LogStash::Outputs::ElasticSearch::HttpClientBuilder.build(@logger, @hosts, params)
   end
