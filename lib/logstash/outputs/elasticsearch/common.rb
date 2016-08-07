@@ -148,7 +148,7 @@ module LogStash; module Outputs; class ElasticSearch;
         params[:_retry_on_conflict] = @retry_on_conflict
       end
 
-      params
+      params.delete_if { |k,v| v.nil? or v.empty? }
     end
 
     # Determine the correct value for the 'type' field for the given event
