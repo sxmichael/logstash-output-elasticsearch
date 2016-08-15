@@ -130,6 +130,13 @@ class LogStash::Outputs::ElasticSearch < LogStash::Outputs::Base
   # a timeout occurs, the request will be retried.
   config :timeout, :validate => :number
 
+  # Control whether to remove empty valued params from action, specifically parent, _id, _routing
+  # In event_action_params() clean params from nil and empty values - when using dynamic fields
+  # (like document_id => "%{[@metadata][document_id]}"), empty or nil values could be produced
+  # for document_id and parent fields (in es_bulk metadata part), which is not valid es_bulk 
+  # metadata format, thus those values should be cleaned. Default: false
+  config :remove_empty_action_params, :validate => :boolean, :default => false
+
   def build_client
     @client = ::LogStash::Outputs::ElasticSearch::HttpClientBuilder.build(@logger, @hosts, params)
   end
