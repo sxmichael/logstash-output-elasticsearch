@@ -39,7 +39,7 @@ module LogStash; module Outputs; class ElasticSearch;
         :script_lang => params["script_lang"],
         :scripted_upsert => params["scripted_upsert"]
       }
-      common_options.merge! update_options if params["action"] == 'update'
+      common_options.merge! update_options if params["action"] == 'update' and not params["skip_update_action_builder"]
 
       LogStash::Outputs::ElasticSearch::HttpClient.new(
         common_options.merge(:hosts => hosts, :logger => logger)
