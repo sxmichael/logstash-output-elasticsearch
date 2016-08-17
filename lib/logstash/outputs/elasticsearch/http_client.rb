@@ -48,7 +48,11 @@ module LogStash; module Outputs; class ElasticSearch;
         else
           next { action => args }
         end
-      end.flatten
+      end.flatten.
+      reduce("") do |acc,line|
+        acc << LogStash::Json.dump(line)
+        acc << "\n"
+      end
 
       @client.bulk(:body => bulk_body)
     end
