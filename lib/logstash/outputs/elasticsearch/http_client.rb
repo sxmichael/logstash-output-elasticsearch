@@ -54,7 +54,7 @@ module LogStash; module Outputs; class ElasticSearch;
         acc << "\n"
       end
 
-      @logger.error("=== Sending bulk body ===", :bulk_body => bulk_body)
+      # @logger.error("=== Sending bulk body ===", :bulk_body => bulk_body)
       
       @client.bulk(:body => bulk_body)
     end
